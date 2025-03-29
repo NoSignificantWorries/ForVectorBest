@@ -2,14 +2,11 @@ import json
 import os
 import shutil
 
-# Путь к твоему датасету
 dataset_path = "/mnt/c/My_files/Study/ForVectorBest2/Stickers_dataset"
 output_path = "/mnt/c/My_files/Study/ForVectorBest2/YOLO_dataset"
 
-# Список папок (train, valid, test)
 folders = ["train", "valid", "test"]
 
-# Проходим по каждой из папок
 for folder in folders:
     coco_file = os.path.join(dataset_path, folder, "_annotations.coco.json")
     
@@ -54,26 +51,21 @@ for folder in folders:
         image_width = image['width']
         image_height = image['height']
 
-        # Получаем аннотации для изображения
         annotations = [anno for anno in coco_data['annotations'] if anno['image_id'] == image_id]
 
-        # Создаем файл аннотаций для изображения в формате YOLO
         yolo_annotation_filename = os.path.join(output_label_folder, image_filename.replace('.jpg', '.txt'))
 
-        # Проверка, существует ли файл аннотации
         if os.path.exists(yolo_annotation_filename):
             print(f"Аннотация для {image_filename} уже существует, пропускаем...")
             continue
 
         with open(yolo_annotation_filename, 'w') as f:
             for annotation in annotations:
-                # Заменим category_id на 0 (поскольку у вас только один класс)
-                category_id = 0  # Это должно быть 0, так как у вас только один класс
-                category_name = category_dict[annotation['category_id']]  # Мы сохраняем название категории для справки, но не используем
-                segmentation = annotation['segmentation']  # Список полигонов
+                category_id = 0
+                category_name = category_dict[annotation['category_id']]
+                segmentation = annotation['segmentation']
 
                 for poly in segmentation:
-                    # Преобразуем полигон в формат YOLO (нормализуем)
                     normalized_poly = []
                     for i in range(0, len(poly), 2):
                         x = poly[i] / image_width
