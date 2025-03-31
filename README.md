@@ -7,7 +7,7 @@
 
 Классификация этикеток для маркировки ёмкостей как "хорошие"(печать без деффектов) или "плохие"(имеются деффекты печати), индикация обнаружения брака.
 
-| "Хорошие" этикетки |
-|:-:|
-|<img src="assets/good_example_1.jpg" alt="Test1" align="left" width=49%> <img src="assets/good_example_2.jpg" alt="Test2" align="right" width=49%>|
+| "Хорошие" этикетки | "Плохие" этикетки |
+|:-:|:-:|
+| <img src="assets/good_example_1.jpg" alt="Test1" align="left" width=49%> | <img src="assets/good_example_2.jpg" alt="Test2" align="right" width=49%> |
 
