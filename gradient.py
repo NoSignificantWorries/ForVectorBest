@@ -28,20 +28,6 @@ for i in range(ax1):
     for j in range(ax2):
         scaled_gray[i * scale_factor:scale_factor * (i + 1), j * scale_factor:scale_factor * (j + 1)] = gray[i, j]
 
-'''
-# 1. Увеличение изображения (используем бикубическую интерполяцию, как более качественную)
-scale_factor = 10
-width = int(image.shape[1] * scale_factor)
-height = int(image.shape[0] * scale_factor)
-resized_image = cv2.resize(image, (width, height), interpolation=cv2.INTER_CUBIC)
-
-sharpen_amount = 100.0
-# 2. Повышение резкости (используем unsharp mask)
-blurred = cv2.GaussianBlur(resized_image, (5, 5), 1.0)
-sharpened = float(sharpen_amount + 1) * resized_image - float(sharpen_amount) * blurred
-sharpened = np.maximum(sharpened, 0)  # Обрезаем значения ниже 0
-sharpened = np.minimum(sharpened, 1) # Обрезаем значения выше 255
-'''
 
 std_image = scipy.ndimage.generic_filter(scaled_gray, np.std, size=5, mode='nearest')
 std_image = norm(std_image)
