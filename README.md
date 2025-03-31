@@ -7,5 +7,7 @@
 
 Классификация этикеток для маркировки ёмкостей как "хорошие"(печать без деффектов) или "плохие"(имеются деффекты печати), индикация обнаружения брака.
 
-|<img src="assets/good_example_1.jpg" alt="Test1" align="left" height=330>|
-|<img src="assets/good_example_2.jpg" alt="Test2" align="right" height=330>|
+| Emilia |
+|:-:|
+|<img src="assets/good_example_1.jpg" alt="Test1" align="left" height=330> <img src="assets/good_example_2.jpg" alt="Test2" align="right" height=330>|
+
