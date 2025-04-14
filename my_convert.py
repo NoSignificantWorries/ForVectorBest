@@ -1,27 +1,25 @@
 import json
 import os
+
 import shutil
 
-dataset_path = "/mnt/c/My_files/Study/ForVectorBest2/Stickers_dataset"
-output_path = "/mnt/c/My_files/Study/ForVectorBest2/YOLO_dataset"
+dataset_path = "Stickers_dataset"
+output_path = "YOLO_dataset"
 
 folders = ["train", "valid", "test"]
 
 for folder in folders:
     coco_file = os.path.join(dataset_path, folder, "_annotations.coco.json")
     
-    # Проверяем, существует ли файл аннотаций для этой папки
     if not os.path.exists(coco_file):
         print(f"Файл аннотаций для {folder} не найден: {coco_file}")
         continue
     
     print(f"Обрабатываем папку: {folder}")
     
-    # Читаем файл COCO для текущей папки
     with open(coco_file, 'r') as f:
         coco_data = json.load(f)
     
-    # Создаем папки для аннотированных данных YOLOv8
     output_folder = os.path.join(output_path, folder)
     output_image_folder = os.path.join(output_folder, "images")
     output_label_folder = os.path.join(output_folder, "labels")
@@ -33,7 +31,6 @@ for folder in folders:
     if not os.path.exists(output_label_folder):
         os.makedirs(output_label_folder)
     
-    # Копируем изображения в папку 'images'
     image_folder = os.path.join(dataset_path, folder)
     
     for image in coco_data['images']:
@@ -41,7 +38,6 @@ for folder in folders:
         image_path = os.path.join(image_folder, image_filename)
         shutil.copy(image_path, os.path.join(output_image_folder, image_filename))
 
-    # Конвертируем аннотации в формат YOLOv8
     categories = coco_data['categories']
     category_dict = {category['id']: category['name'] for category in categories}
 
@@ -73,8 +69,6 @@ for folder in folders:
                         normalized_poly.append(x)
                         normalized_poly.append(y)
 
-                    # Записываем полигон в файл (YOLO использует формат: category_id followed by points)
-                    # YOLOv8 для сегментации требует все полигоны одного объекта в одной строке
                     poly_str = ' '.join(map(str, normalized_poly))
                     f.write(f"{category_id} {poly_str}\n")
 
