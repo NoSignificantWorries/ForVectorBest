@@ -30,26 +30,32 @@ def work_image(image):
 
     value_range = val[cnt_copy > 0]
 
-    gray_copy = gray.copy()
-    gray_copy = np.where(gray_copy >= value_range.min(), 0, 1)
-    gray *= gray_copy
-    gray = norm(gray)
+    mask = gray.copy()
+    mask = np.where(mask >= value_range.min(), 0, 1)
     
-    gray_img = (gray * 255).astype(np.uint8)
-    new_img = (gray_copy * 255).astype(np.uint8)
+    gray_mask = gray.copy()
+    gray_mask[mask > 0] = 1 - gray_mask[mask > 0]
+    gray_mask *= mask
+    gray_mask = norm(gray_mask)
+    gray_mask[gray_mask < 0.5] = 0.0
+    
+    gray_img = (gray_mask * 255).astype(np.uint8)
+    new_img = (mask * 255).astype(np.uint8)
 
     new_img = Image.fromarray(new_img, mode="L")
     gray_img = Image.fromarray(gray_img, mode="L")
     
-    new_img.save(f"gray_stickers/{path}/image_{idx}.png")
+    # new_img.save(f"gray_stickers/{path}/image_{idx}.png")
     gray_img.save(f"gray_stickers_grad/{path}/image_{idx}.png")
+    
+    _, axises = plt.subplots(nrows=3, ncols=1, figsize=(24, 12))
 
-    _, axises = plt.subplots(nrows=2, ncols=1, figsize=(24, 12))
+    # axises[0].plot(val, cnt)
+    # axises[0].plot(val, cnt_copy)
 
-    axises[0].plot(val, cnt)
-    axises[0].plot(val, cnt_copy)
-
-    axises[1].imshow(gray_copy)
+    axises[0].hist(gray_mask.flatten(), bins=100, edgecolor='black', linewidth=1, alpha=0.9)
+    axises[1].imshow(gray_mask)
+    axises[2].imshow(mask)
 
     print("Process done.")
     # plt.savefig(f"result/Bad/image_{idx}.png", format="png", dpi=300)
@@ -60,4 +66,4 @@ if __name__ == "__main__":
     read_path = f"stickers/{path}"
     for image_name in os.listdir(read_path):
         origin = Image.open(f"{read_path}/{image_name}")
-        work_image(origin)        
+        work_image(origin)
