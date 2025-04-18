@@ -9,17 +9,12 @@ norm = (lambda arr: (arr - np.min(arr)) / (np.max(arr) - np.min(arr)))
 get_bins = (lambda x: np.int32(np.ceil(np.log2(x) + 1)))
 
 
-def mask_of_dirt(image):
-    mask = image[:, :, 0] * image[:, :, 1] * image[:, :, 2]
-    
-    return norm(mask)
-
-
-idx = 0
+idx = 33
+path = "valid/Good"
 
 
 def work_image(image):
-    global idx
+    global idx, path
     idx += 1
     print(f"Image {idx} start...")
     image = np.array(origin) / 255
@@ -37,6 +32,17 @@ def work_image(image):
 
     gray_copy = gray.copy()
     gray_copy = np.where(gray_copy >= value_range.min(), 0, 1)
+    gray *= gray_copy
+    gray = norm(gray)
+    
+    gray_img = (gray * 255).astype(np.uint8)
+    new_img = (gray_copy * 255).astype(np.uint8)
+
+    new_img = Image.fromarray(new_img, mode="L")
+    gray_img = Image.fromarray(gray_img, mode="L")
+    
+    new_img.save(f"gray_stickers/{path}/image_{idx}.png")
+    gray_img.save(f"gray_stickers_grad/{path}/image_{idx}.png")
 
     _, axises = plt.subplots(nrows=2, ncols=1, figsize=(24, 12))
 
@@ -46,12 +52,12 @@ def work_image(image):
     axises[1].imshow(gray_copy)
 
     print("Process done.")
-    plt.savefig(f"result/Bad/image_{idx}.png", format="png", dpi=600)
-    plt.show()
+    # plt.savefig(f"result/Bad/image_{idx}.png", format="png", dpi=300)
+    # plt.show()
 
 
 if __name__ == "__main__":
-    path = "Bad"
-    for image_path in os.listdir(path):
-        origin = Image.open(f"{path}/{image_path}")
+    read_path = f"stickers/{path}"
+    for image_name in os.listdir(read_path):
+        origin = Image.open(f"{read_path}/{image_name}")
         work_image(origin)        
