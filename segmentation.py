@@ -4,7 +4,7 @@ import cv2
 import numpy as np
 from ultralytics import YOLO
 
-model = YOLO('runs/segment/train2/weights/best.pt')
+model = YOLO('runs/segment/train_custom8/weights/best.pt')
 
 def process_image(image_path):
     if not os.path.exists('segmentation_results'):
@@ -42,7 +42,8 @@ def process_image(image_path):
     print(f"Segmented image saved to {new_image_path}")
 
 def process_images_in_folder(folder_path):
-    image_paths = glob.glob(os.path.join(folder_path, '*.jpg')) + glob.glob(os.path.join(folder_path, '*.png')) + glob.glob(os.path.join(folder_path, '*.jpeg'))
+    image_paths = (glob.glob(os.path.join(folder_path, '*.jpg')) + glob.glob(os.path.join(folder_path, '*.png')) 
+                + glob.glob(os.path.join(folder_path, '*.jpeg')) + glob.glob(os.path.join(folder_path, '*.PNG')))
     
     for image_path in image_paths:
         print(f"Обрабатываем изображение: {image_path}")

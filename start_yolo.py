@@ -3,7 +3,7 @@ import argparse
 
 from ultralytics import YOLO
 
-def train_model(data_path, model_type='yolov8n-seg.pt', epochs=50, imgsz=640, project='runs/segment', name='train_custom'):
+def train_model(data_path, model_type='yolov8n-seg.pt', epochs=30, imgsz=640, project='runs/segment', name='train_custom'):
     model = YOLO(model_type)
     model.train(
         data=data_path,
