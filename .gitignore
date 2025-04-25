@@ -2,4 +2,6 @@ work/
 .vscode/
 .qodo/
 __pycache__/
+*.pt
+*.pth
 
