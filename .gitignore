@@ -1,4 +1,5 @@
 work/
 .vscode/
+.qodo/
 __pycache__/
 
