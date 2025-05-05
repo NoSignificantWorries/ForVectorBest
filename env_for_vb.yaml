@@ -1,4 +1,4 @@
-name: myenv
+name: env_for_vb
 channels:
   - defaults
   - https://repo.anaconda.com/pkgs/main

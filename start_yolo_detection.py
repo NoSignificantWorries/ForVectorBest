@@ -20,14 +20,14 @@ def train_model(data, model_type='yolov8n.pt', epochs=150, imgsz=640, freeze=10,
         optimizer=optimizer,
         save_period=save_period,
         val=True,
-        patience=50,
+        patience=150,
         warmup_epochs=5,
         degrees=10,
-        scale=0.7,
+        multi_scale=True,
         mosaic=1.0,
-        flipud=0.1,
-        fliplr=0.5
-
+        flipud=0.5,
+        fliplr=0.5,
+    	device=0,
     )
 
     # results = model.val()
@@ -38,7 +38,7 @@ def train_model(data, model_type='yolov8n.pt', epochs=150, imgsz=640, freeze=10,
 def predict(weights, source, output_dir, imgsz=640):
     from pathlib import Path
     model = YOLO(weights)
-    results = model.predict(source, imgsz=imgsz, conf=0.4, iou=0.4)
+    results = model.predict(source, imgsz=imgsz, conf=0.5, iou=0.5)
 
     output_path = Path(output_dir)
     output_path.mkdir(parents=True, exist_ok=True)

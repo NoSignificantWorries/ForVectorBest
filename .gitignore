@@ -2,4 +2,5 @@ work/
 .vscode/
 .qodo/
 __pycache__/
-
+runs/
+yolov8n.pt
