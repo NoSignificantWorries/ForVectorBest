@@ -1,0 +1,13 @@
+train: train/images
+val: valid/images
+test: test/images
+
+nc: 2
+names: ['something', 'text']
+
+roboflow:
+  workspace: horseshoe
+  project: stickers-q9fwk
+  version: 2
+  license: CC BY 4.0
+  url: https://universe.roboflow.com/horseshoe/stickers-q9fwk/dataset/2
