@@ -72,7 +72,10 @@ def remove_bg(main_dir, image_name, save_dir):
 
 
 if __name__ == "__main__":
+    pass
+    '''
     n = len(os.listdir("formask/clean"))
     for i, image_name in enumerate(os.listdir("formask/clean")):
         print(f"Working image {i + 1}/{n}...")
         remove_bg("formask", image_name, "bg_removed")
+    '''

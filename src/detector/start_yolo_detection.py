@@ -2,7 +2,6 @@ import os
 import argparse
 
 import cv2
-
 from ultralytics import YOLO
 
 

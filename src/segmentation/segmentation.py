@@ -1,52 +1,99 @@
 import os
 import glob
+
 import cv2
 import numpy as np
 from ultralytics import YOLO
 
-model = YOLO('runs/segment/train_custom8/weights/best.pt')
+# custom modules
+import conf as conf
 
-def process_image(image_path):
-    if not os.path.exists('segmentation_results'):
-        os.makedirs('segmentation_results')
-    
-    image = cv2.imread(image_path)
-    image_orig = image.copy()
-    h_or, w_or = image.shape[:2]
-    image_resized = cv2.resize(image, (640, 640))
-    results = model(image_resized)[0]
-    
-    if results.masks is None:
-        print(f"Для изображения {image_path} не найдено масок.")
-        return
-    
-    masks = results.masks.data.cpu().numpy()
-    print(f"Обнаружено масок: {len(masks)} для изображения {image_path}")
 
-    for i, mask in enumerate(masks):
-        color = (0, 255, 0)
+class YOLOSegmentation:
+    def __init__(self,
+                 save_mode: bool = conf.SAVE_MODE,
+                 root_save_dir: str = conf.SAVE_DIR,
+                 save_dir_name: str = conf.SEGMENTATION_SAVE_DIR,
+                 color: tuple[int, int, int] = conf.SEGMENTATION_COLOR,
+                 weights: str = conf.SEGMENTATION_WEIGHTS_PATH):
+        self.model = YOLO(weights)
+        self.save = save_mode
+        self.color = color
+
+        if save_mode:
+            self.save_dir = os.path.join(root_save_dir, save_dir_name)
+            if not os.path.exists(self.save_dir):
+                os.makedirs(self.save_dir)
         
-        mask_resized = cv2.resize(mask, (w_or, h_or))
+        self.image = None
+        self.image_path = ""
+        self.masks = None
+    
+    def get_image(self) -> np.ndarray | None:
+        return self.image
+    
+    def get_masks(self):
+        return self.masks
+    
+    def predict_image(self, image_path: str) -> int:
+        self.image_path = image_path
+        self.image = cv2.imread(image_path)
+        image_resized = cv2.resize(self.image, (640, 640))
+        results = self.model(image_resized)[0]
         
-        color_mask = np.zeros((h_or, w_or, 3), dtype=np.uint8)
-        color_mask[mask_resized > 0] = color
+        if results.masks is None:
+            if conf.DEBUG_OUTPUT:
+                print(f"Для изображения {image_path} не найдено масок.")
+            return 0
+        
+        self.masks = results.masks.data.cpu().numpy()
+        if conf.DEBUG_OUTPUT:
+            print(f"Обнаружено масок: {len(self.masks)} для изображения {image_path}")
+        return len(self.masks)
+    
+    def calc_masks(self) -> np.ndarray | None:
+        if self.masks is None or self.image is None:
+            return None
 
-        mask_filename = os.path.join('segmentation_results', f"{os.path.splitext(os.path.basename(image_path))[0]}_mask_{i}.png")
-        cv2.imwrite(mask_filename, color_mask)
-        print(f"Сохранена маска: {mask_filename}")
+        if self.save:
+            image_orig = self.image.copy()
 
-        image_orig = cv2.addWeighted(image_orig, 1.0, color_mask, 0.5, 0)
+        h_or, w_or = self.image.shape[:2]
+        res_mask = np.zeros((h_or, w_or, 3), dtype=np.uint8)
+        for i, mask in enumerate(self.masks):
+            mask_resized = cv2.resize(mask, (w_or, h_or))
 
-    new_image_path = os.path.join('segmentation_results', os.path.splitext(os.path.basename(image_path))[0] + '_segmented' + os.path.splitext(image_path)[1])
-    cv2.imwrite(new_image_path, image_orig)
-    print(f"Segmented image saved to {new_image_path}")
+            mask = np.zeros((h_or, w_or, 3), dtype=np.uint8)
+            mask[mask_resized > 0] = (255, 255, 255)
+            res_mask |= mask
+            
+            if self.save:
+                color_mask = np.zeros((h_or, w_or, 3), dtype=np.uint8)
+                color_mask[mask_resized > 0] = self.color
 
-def process_images_in_folder(folder_path):
+                mask_filename = os.path.join(self.save_dir, f"{os.path.splitext(os.path.basename(self.image_path))[0]}_mask_{i}.png")
+                cv2.imwrite(mask_filename, color_mask)
+
+                if conf.DEBUG_OUTPUT:
+                    print(f"Сохранена маска: {mask_filename}")
+
+                image_orig = cv2.addWeighted(image_orig, 1.0, color_mask, 0.5, 0)
+
+        if self.save:
+            new_image_path = os.path.join(self.save_dir, os.path.splitext(os.path.basename(self.image_path))[0] + '_segmented' + os.path.splitext(self.image_path)[1])
+            cv2.imwrite(new_image_path, image_orig)
+            
+            if conf.DEBUG_OUTPUT:
+                print(f"Segmented image saved to {new_image_path}")
+        return res_mask
+
+
+def process_images_in_folder(model, folder_path: str):
     image_paths = (glob.glob(os.path.join(folder_path, '*.jpg')) + glob.glob(os.path.join(folder_path, '*.png')) 
                 + glob.glob(os.path.join(folder_path, '*.jpeg')) + glob.glob(os.path.join(folder_path, '*.PNG')))
     
     for image_path in image_paths:
         print(f"Обрабатываем изображение: {image_path}")
-        process_image(image_path)
-
-process_images_in_folder('YOLO_dataset/test/images')
+        model.predict_image(image_path)
+        model.calc_masks()
+        print(f"Изображение {image_path} обработано.")
