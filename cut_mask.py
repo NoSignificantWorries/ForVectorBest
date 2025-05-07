@@ -53,8 +53,6 @@ def remove_bg(main_dir, image_name, save_dir):
     img[bool_mask, :] = 0
     
     colors = img.reshape(-1, img.shape[-1])
-    bright_mask = (colors / 255).mean(axis=-1) >= 0.5
-    colors = colors[bright_mask]
     
     colors_flat = colors[:, 0].astype(np.uint32) << 16 | colors[:, 1].astype(np.uint32) << 8 | colors[:, 2].astype(np.uint32)
     
