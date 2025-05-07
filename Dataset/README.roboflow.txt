@@ -1,8 +1,8 @@
 
-STICKERS - v1 2025-04-25 1:16pm
+STICKERS - v2 2025-04-30 10:22am
 ==============================
 
-This dataset was exported via roboflow.com on April 25, 2025 at 6:17 AM GMT
+This dataset was exported via roboflow.com on April 30, 2025 at 3:23 AM GMT
 
 Roboflow is an end-to-end computer vision platform that helps you
 * collaborate with your team on computer vision projects

@@ -1,13 +1,13 @@
-train: /mnt/c/My_files/Study/ForVectorBest/ForVectorBest/Dataset/train/images
-val: /mnt/c/My_files/Study/ForVectorBest/ForVectorBest/Dataset/valid/images
-test: /mnt/c/My_files/Study/ForVectorBest/ForVectorBest/Dataset/test/images
+train: train/images
+val: valid/images
+test: test/images
 
-nc: 11
-names: ['barcode', 'dangerous', 'hourglass', 'ivd', 'line', 'lot', 'number', 'something', 'temperature', 'text', 'vector-best']
+nc: 2
+names: ['something', 'text']
 
 roboflow:
   workspace: horseshoe
   project: stickers-q9fwk
-  version: 1
+  version: 2
   license: CC BY 4.0
-  url: https://universe.roboflow.com/horseshoe/stickers-q9fwk/dataset/1
+  url: https://universe.roboflow.com/horseshoe/stickers-q9fwk/dataset/2
