@@ -80,7 +80,7 @@ class ImageProcessor:
 
         return self.gray_elements
     
-    def cut_mask(self, mask: np.ndarray) -> np.ndarray:
+    def cut_mask(self, mask: np.ndarray) -> np.ndarray | None:
         if self.image is None or mask is None:
             return None
         
