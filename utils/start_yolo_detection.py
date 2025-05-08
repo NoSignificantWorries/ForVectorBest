@@ -5,6 +5,7 @@ import cv2
 from ultralytics import YOLO
 
 import src.conf as conf
+import src.detector.detection
 
 
 def train_model(data: str, model_type: str = 'yolov8n.pt', epochs: int = 150, imgsz: int = 640, freeze: int = 10, batch: int = 2,
