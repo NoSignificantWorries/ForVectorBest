@@ -4,12 +4,16 @@ import argparse
 import cv2
 from ultralytics import YOLO
 
+import src.conf as conf
 
-def train_model(data, model_type='yolov8n.pt', epochs=150, imgsz=640, freeze=10, batch=2, save=True, plots=True, optimizer='SGD', save_period=5):
+
+def train_model(data: str, model_type: str = 'yolov8n.pt', epochs: int = 150, imgsz: int = 640, freeze: int = 10, batch: int = 2,
+                save: bool = True, plots: bool = True, optimizer: str = 'SGD', save_period: int = 5, project: str = conf.DETECTION_PROJECT) -> None:
     model = YOLO(model_type)
     
     model.train(
         data=data,
+        project=project,
         epochs=epochs,
         imgsz=imgsz,
         freeze=freeze,
@@ -29,12 +33,10 @@ def train_model(data, model_type='yolov8n.pt', epochs=150, imgsz=640, freeze=10,
     	device=0,
     )
 
-    # results = model.val()
-
-    model.save("best.pt")
+    model.save("last.pt")
 
 
-def predict(weights, source, output_dir, imgsz=640):
+def predict(weights: str, source: str, output_dir: str, imgsz: int = 640) -> None:
     from pathlib import Path
     model = YOLO(weights)
     results = model.predict(source, imgsz=imgsz, conf=0.5, iou=0.5)

@@ -3,45 +3,24 @@ import argparse
 
 import ultralytics as ult
 
-def train_model(data_path: str, model_type: str = 'yolov8n-seg.pt', epochs: int = 30, imgsz: int = 640, project: str = 'runs/segment', name: str = 'train_custom') -> None:
-    model = ult.YOLO(model_type)
-    model.train(
-        data=data_path,
-        epochs=epochs,
-        imgsz=imgsz,
-        project=project,
-        name=name,
-        task='segment'
-    )
-    print(f"Обучение завершено. Результаты сохранены в {os.path.join(project, name)}")
-
-
-def predict(model_path: str, source_path: str, save: bool = True, imgsz: int = 640) -> list:
-    model = ult.YOLO(model_path)
-    results = model.predict(
-        source=source_path,
-        save=save,
-        imgsz=imgsz,
-        show=False,
-        hide_labels=True,
-        hide_conf=True,
-        line_thickness=0,
-        task='segment'
-    )
-    print(f"Предсказание завершено для: {source_path}")
-    return results
+# custom modules
+from src.segmentator.segmentation import YOLOSegmentation
+import src.conf as conf
 
 
 def main(mode: str, data_path: str, epochs: int, imgsz: int, model_type: str, weights: str, source: str) -> None:
+    conf.DEBUG_OUTPUT = True
     if mode == 'train':
         if not data_path:
             raise ValueError("Укажите путь к --data.yaml для обучения")
-        train_model(data_path, model_type=model_type, epochs=epochs, imgsz=imgsz)
+        model = YOLOSegmentation(weights=model_type)
+        model.train_model(data_path, epochs=epochs, imgsz=imgsz)
 
     elif mode == 'predict':
         if not weights or not source:
             raise ValueError("Для предсказания укажите --weights и --source")
-        predict(weights, source, imgsz=imgsz)
+        model = YOLOSegmentation(weights=weights)
+        model.predict(source, imgsz=imgsz)
 
 if __name__ == '__main__':
     parser = argparse.ArgumentParser(description="YOLOv8: обучение и предсказание")

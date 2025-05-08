@@ -1,7 +1,12 @@
+.venv/
+.env/
 .vscode/
 .qodo/
 __pycache__/
+
 *.pt
 *.pth
 
 runs/
+results/
+tmp/

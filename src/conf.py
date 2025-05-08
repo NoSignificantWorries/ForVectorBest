@@ -11,3 +11,6 @@ SAVE_MODE = False
 SAVE_DIR = "results"
 SEGMENTATION_SAVE_DIR = "segmentation"
 SEGMENTATION_COLOR = (0, 255, 0)
+
+SEGMENTATION_PROJECT = "runs/segmentation"
+DETECTION_PROJECT = "runs/detection"

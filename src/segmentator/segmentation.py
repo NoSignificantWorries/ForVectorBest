@@ -85,6 +85,33 @@ class YOLOSegmentation:
             
             if conf.DEBUG_OUTPUT:
                 print(f"Segmented image saved to {new_image_path}")
+
         return res_mask
 
+    def train_model(self, data_path: str, epochs: int = 30, imgsz: int = 640, project: str = conf.SEGMENTATION_PROJECT, name: str = 'train_custom') -> None:
+        self.model.train(
+            data=data_path,
+            epochs=epochs,
+            imgsz=imgsz,
+            project=project,
+            name=name,
+            task='segment'
+        )
+        if conf.DEBUG_OUTPUT:
+            print(f"Обучение завершено. Результаты сохранены в {os.path.join(project, name)}")
+
+    def predict(self, source_path: str, save: bool = True, imgsz: int = 640) -> list:
+        results = self.model.predict(
+            source=source_path,
+            save=save,
+            imgsz=imgsz,
+            show=False,
+            hide_labels=True,
+            hide_conf=True,
+            line_thickness=0,
+            task='segment'
+        )
+        if conf.DEBUG_OUTPUT:
+            print(f"Предсказание завершено для: {source_path}")
+        return results
 
