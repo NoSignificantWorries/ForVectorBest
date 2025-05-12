@@ -38,4 +38,6 @@ DETECTOR_PARAMS = {
     "flipud": 0.5,
     "fliplr": 0.5,
     "device": 0,
+    "conf": 0.5,
+    "iou": 0.5
 }

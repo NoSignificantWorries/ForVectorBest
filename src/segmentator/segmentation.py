@@ -80,7 +80,7 @@ class YOLOSegmentation:
                 image_orig = cv2.addWeighted(image_orig, 1.0, color_mask, 0.5, 0)
 
         if self.save:
-            new_image_path = os.path.join(self.save_dir, os.path.splitext(os.path.basename(self.image_path))[0] + '_segmented' + os.path.splitext(self.image_path)[1])
+            new_image_path = os.path.join(self.save_dir, os.path.splitext(os.path.basename(self.image_path))[0] + "_segmented" + os.path.splitext(self.image_path)[1])
             cv2.imwrite(new_image_path, image_orig)
             
             if conf.DEBUG_OUTPUT:
@@ -88,14 +88,14 @@ class YOLOSegmentation:
 
         return res_mask
 
-    def train_model(self, data_path: str, epochs: int = 30, imgsz: int = 640, project: str = conf.SEGMENTATION_PROJECT, name: str = 'train_custom') -> None:
+    def train_model(self, data_path: str, epochs: int = 30, imgsz: int = 640, project: str = conf.SEGMENTATION_PROJECT, name: str = "train_custom") -> None:
         self.model.train(
             data=data_path,
             epochs=epochs,
             imgsz=imgsz,
             project=project,
             name=name,
-            task='segment'
+            task="segment"
         )
         if conf.DEBUG_OUTPUT:
             print(f"Обучение завершено. Результаты сохранены в {os.path.join(project, name)}")
@@ -109,7 +109,7 @@ class YOLOSegmentation:
             hide_labels=True,
             hide_conf=True,
             line_thickness=0,
-            task='segment'
+            task="segment"
         )
         if conf.DEBUG_OUTPUT:
             print(f"Предсказание завершено для: {source_path}")
