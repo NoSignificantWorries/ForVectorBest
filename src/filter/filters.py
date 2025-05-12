@@ -30,6 +30,8 @@ class ImageProcessor:
             return None
 
         self.image = cv2.imread(image_path)
+        self.image = cv2.cvtColor(self.image, cv2.COLOR_BGR2RGB)
+
         return self.image
     
     def gray_image(self) -> np.ndarray | None:
@@ -84,28 +86,33 @@ class ImageProcessor:
         if self.image is None or mask is None:
             return None
         
-        white_pixels = np.argwhere(mask == 1.0)
+        white_pixels = np.argwhere(mask > 0.0)
         y_min, x_min = white_pixels.min(axis=0)
         y_max, x_max = white_pixels.max(axis=0)
 
         mask = mask[y_min:y_max + 1, x_min:x_max + 1]
         self.image = self.image[y_min:y_max + 1, x_min:x_max + 1]
-
+        
         bool_mask = mask == 0
 
-        self.image[bool_mask, :] = 0
-        
+        self.image[bool_mask, :] = 255
+
+        '''        
         colors = self.image.reshape(-1, self.image.shape[-1])
         
         colors_flat = colors[:, 0].astype(np.uint32) << 16 | colors[:, 1].astype(np.uint32) << 8 | colors[:, 2].astype(np.uint32)
         
         counts = np.bincount(colors_flat)
-        idx = np.argmax(counts)
+        indexes = np.argsort(counts)[::-1]
+
+        color = colors_flat[indexes[1]]
         
-        most_common_color = np.array([(idx >> 16) & 0xFF, (idx >> 8) & 0xFF, idx & 0xFF])
+        most_common_color = np.array([(color >> 16) & 0xFF, (color >> 8) & 0xFF, color & 0xFF])
+        print(most_common_color)
         
         self.image[bool_mask, 0] = most_common_color[0]
         self.image[bool_mask, 1] = most_common_color[1]
         self.image[bool_mask, 2] = most_common_color[2]
+        '''
         
-        return self.image
+        return mask, self.image

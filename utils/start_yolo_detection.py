@@ -8,33 +8,31 @@ import src.conf as conf
 import src.detector.detection
 
 
-def train_model(data: str, model_type: str = 'yolov8n.pt', epochs: int = 150, imgsz: int = 640, freeze: int = 10, batch: int = 2,
-                save: bool = True, plots: bool = True, optimizer: str = 'SGD', save_period: int = 5, project: str = conf.DETECTION_PROJECT) -> None:
+def train_model(data: str, params: dict = conf.DETECTOR_PARAMS, model_type: str = 'yolov8n.pt') -> None:
     model = YOLO(model_type)
     
     model.train(
         data=data,
-        project=project,
-        epochs=epochs,
-        imgsz=imgsz,
-        freeze=freeze,
-        batch=batch,
-        save=save,
-        plots=plots,
-        optimizer=optimizer,
-        save_period=save_period,
-        val=True,
-        patience=150,
-        warmup_epochs=5,
-        degrees=10,
-        multi_scale=True,
-        mosaic=1.0,
-        flipud=0.5,
-        fliplr=0.5,
-    	device=0,
+        project=params["project"],
+        epochs=params["epochs"],
+        imgsz=params["imgsz"],
+        freeze=params["freeze"],
+        batch=params["batch"],
+        save=params["save"],
+        plots=params["plots"],
+        optimizer=params["optimizer"],
+        save_period=params["save_period"],
+        val=params["val"],
+        patience=params["patience"],
+        warmup_epochs=params["warmup_epochs"],
+        degrees=params["degrees"],
+        multi_scale=params["multi_scale"],
+        mosaic=params["mosaic"],
+        flipud=params["flipud"],
+        fliplr=params["flipdir"],
+    	device=params["device"],
     )
-
-    model.save("last.pt")
+    # model.save("last.pt")
 
 
 def predict(weights: str, source: str, output_dir: str, imgsz: int = 640) -> None:
