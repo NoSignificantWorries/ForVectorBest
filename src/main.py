@@ -1,3 +1,5 @@
+import os
+
 from src.filter import filters
 from src.detector import detection
 from src.segmentator import segmentation
