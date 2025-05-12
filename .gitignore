@@ -4,8 +4,8 @@
 .qodo/
 __pycache__/
 
-*.pt
-*.pth
+./*.pt
+./*.pth
 
 runs/
 results/
