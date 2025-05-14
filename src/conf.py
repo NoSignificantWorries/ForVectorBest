@@ -41,3 +41,15 @@ DETECTOR_PARAMS = {
     "conf": 0.5,
     "iou": 0.5
 }
+
+SEGMENT_PARAMS = {
+    "epochs": 30,
+    "imgsz": 640,
+    "project": SEGMENTATION_PROJECT,
+    "name": "train_segmentation_custom",
+    "save": True,
+    "show": False,
+    "hide_labels": True,
+    "hide_conf": True,
+    "line_thickness": 0
+}

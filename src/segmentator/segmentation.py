@@ -88,27 +88,27 @@ class YOLOSegmentation:
 
         return res_mask
 
-    def train_model(self, data_path: str, epochs: int = 30, imgsz: int = 640, project: str = conf.SEGMENTATION_PROJECT, name: str = "train_custom") -> None:
+    def train(self, data_path: str, params: dict = conf.SEGMENT_PARAMS) -> None:
         self.model.train(
             data=data_path,
-            epochs=epochs,
-            imgsz=imgsz,
-            project=project,
-            name=name,
+            epochs=params["epochs"],
+            imgsz=params["imgsz"],
+            project=params["project"],
+            name=params["name"],
             task="segment"
         )
         if conf.DEBUG_OUTPUT:
-            print(f"Обучение завершено. Результаты сохранены в {os.path.join(project, name)}")
+            print(f"Обучение завершено. Результаты сохранены в {os.path.join(params["project"], params["name"])}")
 
-    def predict(self, source_path: str, save: bool = True, imgsz: int = 640) -> list:
+    def predict(self, source_path: str, params: dict = conf.SEGMENT_PARAMS) -> list:
         results = self.model.predict(
             source=source_path,
-            save=save,
-            imgsz=imgsz,
-            show=False,
-            hide_labels=True,
-            hide_conf=True,
-            line_thickness=0,
+            save=params["save"],
+            imgsz=params["imgsz"],
+            show=params["show"],
+            hide_labels=params["hide_labels"],
+            hide_conf=params["hide_conf"],
+            line_thickness=params["line_thickness"],
             task="segment"
         )
         if conf.DEBUG_OUTPUT:
