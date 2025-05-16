@@ -80,10 +80,8 @@ class Detector:
 
                 if class_id == 1:
                     image_results["text_boxes"].append(box_info)
-                elif class_id == 0:
-                    image_results["object_boxes"].append(box_info)
                 else:
-                    # Если появятся другие классы, можно добавить сюда обработку
+                    image_results["object_boxes"].append(box_info)
                     pass
 
             predictions.append(image_results)

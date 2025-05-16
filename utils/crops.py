@@ -108,9 +108,8 @@ def process_folder(input_dir: str, output_dir: str, model_path: str):
 
 
 if __name__ == "__main__":
-    # Пример использования
     input_folder = "data/for_crops"  # Папка с Good и Bad
-    output_folder = "output"  # Куда сохранять кропы и JSON
+    output_folder = "output"
     model_path = "resources/weights/detection.pt"
 
     process_folder(input_folder, output_folder, model_path)
