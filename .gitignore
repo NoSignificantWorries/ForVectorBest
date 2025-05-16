@@ -10,3 +10,4 @@ __pycache__/
 runs/
 results/
 tmp/
+local_data/
