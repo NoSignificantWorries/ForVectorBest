@@ -5,18 +5,15 @@ import cv2
 import numpy as np
 import matplotlib.pyplot as plt
 
-from src.filter.filters import ImageProcessor
-
-
-image_processor = ImageProcessor()
-mask_processor = ImageProcessor()
 
 images_path = os.path.join("data", "stickers2", "Bad")
 
 for image_path in (glob.glob(os.path.join(images_path, "*.jpg")) + glob.glob(os.path.join(images_path, "*.png"))):
     image_name = os.path.split(image_path)[-1]
 
-    img = image_processor.get_image()
+    img = cv2.imread(image_path)
+    img = cv2.cvtColor(img, cv2.COLOR_BGR2RGB).astype(np.float64)
+    img /= 255
     
     img = 255 - img
     gray = img.mean(axis=-1)
