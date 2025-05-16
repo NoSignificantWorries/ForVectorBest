@@ -8,6 +8,7 @@ DEBUG_OUTPUT = False
 SAVE_MODE = False
 SAVE_DIR = "results"
 DETECTION_SAVE_DIR = "detection"
+PREPROCESS_SAVE_DIR = "preprocess"
 
 DETECTION_PROJECT = "runs/detection"
 

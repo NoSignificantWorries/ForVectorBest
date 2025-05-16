@@ -1,3 +1,3 @@
-import src.detector.detection as detection
+import src.detector.detector as detector
 
-__all__ = ["detection"]
+__all__ = ["detector"]

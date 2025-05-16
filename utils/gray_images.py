@@ -13,7 +13,6 @@ for image_path in (glob.glob(os.path.join(images_path, "*.jpg")) + glob.glob(os.
 
     img = cv2.imread(image_path)
     img = cv2.cvtColor(img, cv2.COLOR_BGR2RGB).astype(np.float64)
-    img /= 255
     
     img = 255 - img
     gray = img.mean(axis=-1)
