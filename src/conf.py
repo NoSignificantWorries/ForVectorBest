@@ -1,20 +1,14 @@
 
-SEGMENTATION_WEIGHTS_PATH = "resources/weights/segmentation.pt"
 DETECTOR_WEIGHTS_PATH = "resources/weights/detector.pt"
 
-BASE_DATASET_PATH = "data/stickers"
-SEGMENTATION_DATASET_PATH = "data/YOLO_seg_dataset"
+BASE_DATASET_PATH = "data/stickers2"
 DETECTOR_DATASET_PATH = "data/YOLO_bbox_dataset"
 
 DEBUG_OUTPUT = False
 SAVE_MODE = False
 SAVE_DIR = "results"
-SEGMENTATION_SAVE_DIR = "segmentation"
-SEGMENTATION_COLOR = (0, 255, 0)
 DETECTION_SAVE_DIR = "detection"
-FILTERS_SAVE_DIR = "filters"
 
-SEGMENTATION_PROJECT = "runs/segmentation"
 DETECTION_PROJECT = "runs/detection"
 
 
@@ -40,16 +34,4 @@ DETECTOR_PARAMS = {
     "device": 0,
     "conf": 0.5,
     "iou": 0.5
-}
-
-SEGMENT_PARAMS = {
-    "epochs": 30,
-    "imgsz": 640,
-    "project": SEGMENTATION_PROJECT,
-    "name": "train_segmentation_custom",
-    "save": True,
-    "show": False,
-    "hide_labels": True,
-    "hide_conf": True,
-    "line_thickness": 0
 }

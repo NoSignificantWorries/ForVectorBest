@@ -107,8 +107,7 @@ classes = [1, 2, 3, 4]
 # 0 - base
 # 1 - dirt
 # 2 - didn't print
-# 3 - absented
-# 4 - blurred
+# 3 - blurred
 class_colors = {
     1: (255, 0, 0, 120),    # Red, semi-transparent
     2: (0, 255, 0, 120),    # Green
