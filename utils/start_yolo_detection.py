@@ -5,16 +5,16 @@ import cv2
 from ultralytics import YOLO
 
 import src.conf as conf
-from src.detector import detection
+from detector import detector
 
 
 def train_model(data: str, params: dict = conf.DETECTOR_PARAMS) -> None:      
-    model = detection.Detector(params["model_type"])
+    model = detector.Detector(params["model_type"])
     model.train(data, params)
 
 
 def predict(source: str, save_dir: str, weights: str = conf.DETECTOR_WEIGHTS_PATH, params: dict = conf.DETECTOR_PARAMS) -> None:
-    model = detection.Detector(weights)
+    model = detector.Detector(weights)
     model.predict(source, save_dir, params)
 
 
