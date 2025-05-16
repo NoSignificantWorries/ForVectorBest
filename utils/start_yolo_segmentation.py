@@ -28,7 +28,7 @@ if __name__ == '__main__':
 
     parser.add_argument("-d", '--data', type=str, help='Путь к data.yaml для обучения')
     parser.add_argument("-e", '--epochs', type=int, default=50, help='Количество эпох')
-    parser.add_argument("-s", '--imgsz', type=int, default=640, help='Размер изображений')
+    parser.add_argument("-i", '--imgsz', type=int, default=640, help='Размер изображений')
     parser.add_argument("-t", '--model_type', type=str, default='yolov8n-seg.pt', help='Базовая модель YOLO (для обучения)')
 
     parser.add_argument("-w", '--weights', type=str, help='Путь к .pt файлу модели')
@@ -36,4 +36,4 @@ if __name__ == '__main__':
 
     args = parser.parse_args()
 
-    main(args.mode, args.data, args.epochss, args.imgsz, args.model_type, args.weights, args.source)
+    main(args.mode, args.data, args.epochs, args.imgsz, args.model_type, args.weights, args.source)
