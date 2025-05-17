@@ -1,16 +1,14 @@
 import joblib
 
-import ultralytics as ult
-
 import src.conf as conf
 from src.base_worker import BaseWorker
 
 
-class BBOXClassifier(BaseWorker):
-    def __init__(self, model_path: str = conf.BBOX_CLASSIFIER_PATH):
+class PATTERNClassifier(BaseWorker):
+    def __init__(self, model_path: str = conf.PATTERN_CLASSIFIER_PATH):
         self.model = joblib.load(model_path)
     
-    def __call__(self, detection: ult.engine.results.Results) -> None:
+    def __call__(self) -> None:
         return None
     
     def visualize(self) -> None:
