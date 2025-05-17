@@ -63,20 +63,20 @@ class Detector(BaseWorker):
             fliplr=params["flipdir"],
             device=params["device"],
         )
-        # model.save("last.pt")
 
 
-    # def predict(self, source: str, save_dir: str, params: dict = conf.DETECTOR_PARAMS) -> None:
-    #     results = self.model.predict(source, imgsz=params["imgsz"], conf=params["conf"], iou=params["iou"])
+    def predict(self, source: str, save_dir: str, params: dict = conf.DETECTOR_PARAMS) -> None:
+        results = self.model.predict(source, imgsz=params["imgsz"], conf=params["conf"], iou=params["iou"])
 
-    #     output_path = Path(save_dir)
-    #     output_path.mkdir(parents=True, exist_ok=True)
+        output_path = Path(save_dir)
+        output_path.mkdir(parents=True, exist_ok=True)
 
-    #     for i, r in enumerate(results):
-    #         im_bgr = r.plot()
-    #         image_path = output_path / f"test_result_{i}.jpg"
-    #         cv2.imwrite(str(image_path), im_bgr)
+        for i, r in enumerate(results):
+            im_bgr = r.plot()
+            image_path = output_path / f"test_result_{i}.jpg"
+            cv2.imwrite(str(image_path), im_bgr)
 
+    '''
     def predict(self, source: str, save_dir: str, params: dict = conf.DETECTOR_PARAMS, allowed_classes: list = None):
         results = self.model.predict(source, imgsz=params["imgsz"], conf=params["conf"], iou=params["iou"])
 
@@ -116,3 +116,4 @@ class Detector(BaseWorker):
             predictions.append(image_results)
 
         return predictions
+        '''
