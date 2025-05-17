@@ -36,3 +36,17 @@ DETECTOR_PARAMS = {
     "conf": 0.5,
     "iou": 0.5
 }
+
+BBOX_CLASSES = [
+    "product", 
+    "triangle with an exclamation mark",
+    "ivd",
+    "lot",
+    "temperature",
+    "The hourglass",
+    "Production date",
+    "Serial number",
+    "company title",
+    "Volume"
+]
+NUM_CLUSSES = len(BBOX_CLASSES)
