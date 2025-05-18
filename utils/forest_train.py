@@ -135,15 +135,15 @@ def main(csv_path: str, num_classes: int = conf.NUM_CLUSSES) -> None:
     
     print(len(df2.columns))
 
-    X = df2.drop(["name", "good/bad"], axis=1)
+    X = df2.drop(["name", "good/bad", "Unnamed: 0"], axis=1)
     print(X.columns)
     y = df2["good/bad"]
 
     X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=42)
 
-    model = joblib.load(conf.PATTERN_CLASSIFIER_PATH)
-    # model = RandomForestClassifier(n_estimators=50, random_state=42)
-    # model.fit(X_train, y_train)
+    # model = joblib.load(conf.PATTERN_CLASSIFIER_PATH)
+    model = RandomForestClassifier(n_estimators=50, random_state=42)
+    model.fit(X_train, y_train)
 
     y_pred = model.predict(X_test)
 

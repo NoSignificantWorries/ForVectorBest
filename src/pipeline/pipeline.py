@@ -1,3 +1,4 @@
+import time
 
 import numpy as np
 
@@ -12,10 +13,18 @@ class Pipeline:
         self.pipeline = pipeline
 
     def __call__(self, image: np.ndarray) -> bool:
+        total_time = 0.0
         pred = image
-        for worker in self.pipeline:
+        for i, worker in enumerate(self.pipeline):
+            start = time.time()
             pred = worker(pred)
+            end = time.time()
+            if conf.DEBUG_OUTPUT:
+                print(i, end - start, sep=" | ")
+                total_time += end - start
             if conf.SAVE_MODE:
                 worker.visualize()
+        if conf.DEBUG_OUTPUT:
+            print("Total time:", total_time)
         
         return True
