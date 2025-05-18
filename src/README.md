@@ -112,8 +112,32 @@
 <a name="class-diagram"></a>
 ## 📊 Диаграмма классов (Mermaid-схема)
 
-![class diagram](assets/class_diagram.mmd)
-
+```mermaid
+---
+config:
+  theme: redux
+  look: classic
+  layout: elk
+---
+classDiagram
+    BaseWorker <|-- Detector : implements
+    BaseWorker <|-- Preprocessor : implements
+    Detector *-- YOLOModel : uses
+    Pipeline o-- Detector
+    Pipeline o-- Preprocessor
+    Main ..> Pipeline : executes
+    Conf <.. Main : loads config
+    Conf : +str BASE_DATASET_PATH
+    Conf : +dict DETECTOR_PARAMS
+    Conf : +bool DEBUG_OUTPUT
+    BaseWorker : +__call__()
+    BaseWorker : +verify()
+    BaseWorker : +save_call()
+    Detector : +train()
+    Detector : +predict()
+    Preprocessor : +__call__()
+    Preprocessor : +visualize()
+```
 ---
 <a name="recommendations"></a>
 ## Рекомендации по расширению
