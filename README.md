@@ -19,7 +19,7 @@
 
 | "Хорошие" этикетки | "Плохие" этикетки |
 |:-:|:-:|
-| [![Demo video - good sticker](assets/good.jpg)](assets/good.gif) | [![Demo video - bad sticker]( assets/bad.jpg)](assets/bad.gif) |
+| ![Demo video - good sticker](assets/good.gif) | ![Demo video - bad sticker](assets/bad.gif) |
 
 ### Некоторые из возможных дефектов
 
