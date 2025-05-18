@@ -1,7 +1,14 @@
-work/
+.venv/
+.env/
 .vscode/
 .qodo/
 __pycache__/
-*.pt
-*.pth
 
+./*.pt
+./*.pth
+
+runs/
+results/
+tmp/
+local_data/
+docs/
