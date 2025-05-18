@@ -16,7 +16,6 @@
 | <img src="assets/good_example_2.jpg" alt="good example #2"> | <img src="assets/bad_example_2.jpg" alt="bad example #2"> |
 
 ### Демонстрация работы
-[![Watch the video](https://img.youtube.com/vi/T-D1KVIuvjA/maxresdefault.jpg)](https://youtu.be/T-D1KVIuvjA)
 
 | "Хорошие" этикетки | "Плохие" этикетки |
 |:-:|:-:|
