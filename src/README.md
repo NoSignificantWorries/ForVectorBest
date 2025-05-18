@@ -13,7 +13,7 @@
 * [image\_processor/](#image_processor)
 * [pipeline/](#pipeline)
 * [Взаимодействие компонентов](#component-interaction)
-* [Принцип работы (схема)](#class-diagram)
+* [Диаграмма классов (схема)](#class-diagram)
 * [Рекомендации по расширению](#recommendations)
 
 ---
