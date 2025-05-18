@@ -15,10 +15,15 @@ from src.base_worker import BaseWorker
 class Detector(BaseWorker):
     def __init__(self, model_type: str = conf.DETECTOR_WEIGHTS_PATH):
         self.model = YOLO(model_type)
+        self.index = -1
         self.res = None
+
         self.save_dir = os.path.join(conf.SAVE_DIR, conf.DETECTION_SAVE_DIR)
+        if not os.path.exists(self.save_dir):
+            os.makedirs(self.save_dir)
 
     def __call__(self, source: np.ndarray) -> ult.engine.results.Results | None:
+        self.index += 1
         if conf.DEBUG_OUTPUT:
             print("Detector called with source shape:", source.shape)
 
@@ -28,19 +33,19 @@ class Detector(BaseWorker):
                                  conf=conf.DETECTOR_PARAMS["conf"],
                                  iou=conf.DETECTOR_PARAMS["iou"])
         if not bool(res):
-            res = None
+            self.res = None
             return None
         self.res = res[0]
         return self.res
     
-    def visualize(self) -> None:
+    def verify(self) -> bool:
+        return self.res is not None
+    
+    def save_call(self) -> None:
         if self.res is None:
             return None
 
-        if not os.path.exists(self.save_dir):
-            os.makedirs(self.save_dir)
-        
-        cv2.imwrite(os.path.join(self.save_dir, "detected_image_0.jpg"), self.res.plot())
+        cv2.imwrite(os.path.join(self.save_dir, f"detected_image_{self.index}.jpg"), self.res.plot())
         
     def train(self, data: str, params: dict = conf.DETECTOR_PARAMS) -> None:      
         self.model.train(

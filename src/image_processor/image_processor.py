@@ -10,11 +10,13 @@ from src.base_worker import BaseWorker
 
 class Preprocessor(BaseWorker):
     def __init__(self):
+        self.index = -1
         self.image = None
         self.gray = None
         self.save_dir = os.path.join(conf.SAVE_DIR, conf.PREPROCESS_SAVE_DIR)
 
     def __call__(self, image: np.ndarray) -> np.ndarray | None:
+        self.index += 1
         if conf.DEBUG_OUTPUT:
             print("Preprocessor called with image shape:", image.shape)
 
@@ -26,7 +28,10 @@ class Preprocessor(BaseWorker):
         self.gray[:, :, 2] = self.gray[:, :, 0]
         return self.gray.astype(np.uint8)
     
-    def visualize(self) -> None:
+    def verify(self) -> bool:
+        return True
+    
+    def save_call(self) -> None:
         if self.gray is None:
             return None
         
@@ -34,4 +39,4 @@ class Preprocessor(BaseWorker):
             os.makedirs(self.save_dir)
         
         to_save = self.gray.astype(np.uint8)
-        cv2.imwrite(os.path.join(self.save_dir, "processed_image_0.jpg"), to_save)
+        cv2.imwrite(os.path.join(self.save_dir, f"processed_image_{self.index}.jpg"), to_save)

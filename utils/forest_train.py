@@ -99,7 +99,6 @@ def main(csv_path: str, num_classes: int = conf.NUM_CLUSSES) -> None:
     for image_name in df["image_name"].unique():
         local_df = df[df["image_name"] == image_name]
 
-        path = os.path.join("local_data", "output", "Bad", image_name)
         df2["name"].append(image_name)
         if os.path.exists(path):
             df2["good/bad"].append(0)

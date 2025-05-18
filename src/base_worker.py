@@ -5,5 +5,8 @@ class BaseWorker:
     def __call__(self):
         raise NotImplementedError("Not implemented 'call' method")
     
-    def visualize(self):
-        raise NotImplementedError("Not implemented 'visualize' method")
+    def verify(self):
+        raise NotImplementedError("Not implemented 'verify' method")
+    
+    def save_call(self):
+        raise NotImplementedError("Not implemented 'save_call' method")

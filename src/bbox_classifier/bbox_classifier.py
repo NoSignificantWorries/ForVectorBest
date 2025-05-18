@@ -1,8 +1,10 @@
+import os
 import joblib
 
 import ultralytics as ult
 import numpy as np
 import pandas as pd
+import cv2
 
 import src.conf as conf
 from src.base_worker import BaseWorker
@@ -11,14 +13,24 @@ from src.base_worker import BaseWorker
 class BBOXClassifier(BaseWorker):
     def __init__(self, model_path: str = conf.BBOX_CLASSIFIER_PATH):
         self.model = joblib.load(model_path)
+        self.image = None
+        self.index = -1
         self.boxes = None
         self.data = None
         self.height = 0
         self.width = 0
+
+        self.save_dir = os.path.join(conf.SAVE_DIR, conf.BBOX_SAVE_DIR)
+        if not os.path.exists(self.save_dir):
+            os.makedirs(self.save_dir)
     
     def __call__(self, detection: ult.engine.results.Results) -> pd.DataFrame:
+        self.index += 1
+        if conf.DEBUG_OUTPUT:
+            print("Bbox classificator called")
         self.data = None
         self.height, self.width = detection.orig_shape
+        self.image = np.array(detection.orig_img, dtype=np.uint8)
         self.boxes = detection.boxes.data.cpu().numpy()
         
         self.data = {
@@ -46,10 +58,32 @@ class BBOXClassifier(BaseWorker):
 
         self.data["class"] = predict
         
-        return self.data
+        return (self.data, self.image.copy())
     
-    def visualize(self) -> None:
-        return None
+    def save_call(self) -> None:
+        if self.boxes is None:
+            return None
+        
+        for index, row in self.data.iterrows():
+            color = conf.CLASS_COLORS[int(row["class"])]
+            x1, y1, x2, y2 = int(row["x1"] + self.width / 2), int(row["y1"] + self.height / 2), int(row["x2"] + self.width / 2), int(row["y2"] + self.height / 2)
+            cv2.rectangle(self.image, (x1, y1), (x2, y2), color, 2)
+
+            label = conf.BBOX_CLASSES[int(row["class"])]
+            (text_width, text_height) = cv2.getTextSize(label, cv2.FONT_HERSHEY_SIMPLEX, 1, 2)[0]
+            text_x = x1
+            text_y = y1 - 10 if y1 - 10 > 10 else y1 + text_height + 10
+
+            cv2.rectangle(self.image, (text_x, text_y - text_height - 5), (text_x + text_width, text_y + 5), color, -1)
+            cv2.putText(self.image, label, (text_x, text_y), cv2.FONT_HERSHEY_SIMPLEX, 1, (255, 255, 255), 2)
+            
+            cv2.imwrite(os.path.join(self.save_dir, f"objects_{self.index}.png"), self.image)
+    
+    def verify(self) -> bool:
+        for index, row in self.data.iterrows():
+            if self.data[self.data["class"] == row["class"]].shape[0] > 1:
+                return False
+        return True
     
     def expand_boxes_data(self, x1: float, y1: float, x2: float, y2: float) -> None:
         if self.data is None:

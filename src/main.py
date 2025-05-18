@@ -2,6 +2,8 @@ import os
 import time
 
 import cv2
+from sklearn.metrics import accuracy_score, precision_score, recall_score, f1_score
+from tqdm import tqdm
 
 import src.pipeline.pipeline as pipeline
 import src.detector.detector as detector
@@ -21,14 +23,13 @@ workflow = [
 
 def main() -> None:
     work_process = pipeline.Pipeline(workflow)
-    
-    image = cv2.imread("local_data/stickers2/Bad/1_1.png")
 
-    work_process(image)
+    image = cv2.imread("local_data/stickers2/Bad/1_1.png")
+    print(work_process(image))
     
 
 if __name__ == "__main__":
     conf.DEBUG_OUTPUT = True
-    conf.SAVE_MODE = True
+    # conf.SAVE_MODE = True
 
     main()

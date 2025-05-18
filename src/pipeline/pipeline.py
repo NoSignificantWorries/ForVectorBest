@@ -18,12 +18,19 @@ class Pipeline:
         for i, worker in enumerate(self.pipeline):
             start = time.time()
             pred = worker(pred)
+
+            if pred is None:
+                return False
+            
+            if not worker.verify():
+                return False
+
             end = time.time()
             if conf.DEBUG_OUTPUT:
                 print(i, end - start, sep=" | ")
                 total_time += end - start
             if conf.SAVE_MODE:
-                worker.visualize()
+                worker.save_call()
         if conf.DEBUG_OUTPUT:
             print("Total time:", total_time)
         

@@ -1,4 +1,3 @@
-
 DETECTOR_WEIGHTS_PATH = "resources/weights/detector.pt"
 
 BASE_DATASET_PATH = "data/stickers2"
@@ -38,18 +37,33 @@ DETECTOR_PARAMS = {
 }
 
 BBOX_CLASSES = [
-    "product", 
-    "triangle with an exclamation mark",
-    "ivd",
-    "lot",
-    "temperature",
-    "The hourglass",
+    "Product", 
+    "Exclamation mark",
+    "IVD",
+    "LOT",
+    "Temperature",
+    "Hourglass",
     "Production date",
     "Serial number",
-    "company title",
+    "Company title",
     "Volume"
+]
+CLASS_COLORS = [
+    (255, 0, 0),
+    (200, 50, 0),
+    (150, 100, 0),
+    (100, 150, 0),
+    (50, 200, 0),
+    (0, 255, 0),
+    (0, 200, 50),
+    (0, 150, 100),
+    (0, 100, 150),
+    (0, 0, 255)
 ]
 NUM_CLUSSES = len(BBOX_CLASSES)
 
 BBOX_CLASSIFIER_PATH = "resources/weights/bbox_classifier.pkl"
 PATTERN_CLASSIFIER_PATH = "resources/weights/pattern_classifier.pkl"
+
+BBOX_SAVE_DIR = "bbox_classifier"
+PATTERN_SAVE_DIR = "pattern_classifier"
