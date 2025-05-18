@@ -12,8 +12,8 @@
 - [detector/](#detector)
 - [image_processor/](#image_processor)
 - [pipeline/](#pipeline)
-- [Рекомендации по расширению](#recomendants)
-- [Взаимодействие компонентов](#interaction)
+- [Рекомендации по расширению](#Рекомендации)
+- [Взаимодействие компонентов](#Взаимодействие)
 
 ---
 
