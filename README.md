@@ -15,6 +15,13 @@
 | <img src="assets/good_example_1.jpg" alt="good example #1"> | <img src="assets/bad_example_1.jpg" alt="bad example #1"> |
 | <img src="assets/good_example_2.jpg" alt="good example #2"> | <img src="assets/bad_example_2.jpg" alt="bad example #2"> |
 
+### Демонстрация работы
+[![Watch the video](https://img.youtube.com/vi/T-D1KVIuvjA/maxresdefault.jpg)](https://youtu.be/T-D1KVIuvjA)
+
+| "Хорошие" этикетки | "Плохие" этикетки |
+|:-:|:-:|
+| [![Demo video - good sticker](assets/good.jpg)](assets/good.gif) | [![Demo video - bad sticker]( assets/bad.jpg)](assets/bad.gif) |
+
 ### Некоторые из возможных дефектов
 
 - Один символ перекрывает другой
