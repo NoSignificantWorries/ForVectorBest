@@ -59,5 +59,26 @@ project/
 └── README.md
 ```
 
+## 🔄 Pipeline
+```mermaid
+flowchart TD
+    A[Start: Input Image] --> B[Initialize pred = image]
+    B --> C[For each worker in pipeline]
+    
+    C --> D[Call worker with pred]
+    D --> E{Result is None?}
+    E -- Yes --> F[Early Exit: Return False]
+    E -- No --> G[Run worker verify]
+    
+    G --> H{verify is False?}
+    H -- Yes --> F
+    H -- No --> I[Update pred]
+    I --> J[Next worker]
+
+    J --> C
+
+    C -->|All workers processed| K[Return True]
+```
+
 > Описание работы скриптов и модулей размещается в отдельных README-файлах внутри соответствующих папок.
 
